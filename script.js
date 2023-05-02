@@ -1,4 +1,5 @@
 class Calculator {
+
     constructor(prevOperandTextElement, currentOperandTextElement) {
         this.prevOperandTextElement = prevOperandTextElement
         this.currentOperandTextElement = currentOperandTextElement
@@ -22,9 +23,7 @@ class Calculator {
 
     chooseOperation(operation) {
         if (this.currentOperand === '') return
-        if (this.previousOperand !== ''){ 
-            this.compute()
-        }
+        if (this.previousOperand !== '') this.compute()
         this.operation = operation
         this.previousOperand = this.currentOperand
         this.currentOperand = ''
@@ -62,66 +61,61 @@ class Calculator {
         const decimalDigits = stringNumber.split('.')[1]
         let integerDisplay
 
-        if (isNaN(integerDigits)) {
-            integerDisplay = ''
-        } else {
-            integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
-        }
-        if (decimalDigits != null) {
-            return `${integerDisplay}.${decimalDigits}`
-        } else {
-            return integerDisplay
-        }
+        if (isNaN(integerDigits)) integerDisplay = ''
+        else integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
+        if (decimalDigits != null) return `${integerDisplay}.${decimalDigits}`
+        return integerDisplay
     }
 
     updateDisplay() {
         this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand)
-        if (this.operation != null) {
-        this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
-        } else {
-            this.previousOperandTextElement.innerText = ''
-        }
+        if (this.operation != null)
+        this.prevOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+        else this.prevOperandTextElement.innerText = ''
     }
 }
 
-const numberButtons = document.querySelectorAll('[data-num]')
-const operationButtons = document.querySelectorAll('[data-oper]')
-const equalsButton = document.querySelector('[data-equal]')
-const deleteButton = document.querySelector('[data-del]')
-const clearButton = document.querySelector('[data-clear]')
-const prevOperandTextElement = document.querySelector('[data-prev-operand]')
-const currentOperandTextElement = document.querySelector('[data-current-operand]')
+
+function events_loop (){
+    
+    const numberButtons = document.querySelectorAll('[data-num]')
+    const operationButtons = document.querySelectorAll('[data-oper]')
+    const equalsButton = document.querySelector('[data-equal]')
+    const deleteButton = document.querySelector('[data-del]')
+    const clearButton = document.querySelector('[data-clear]')
+    const prevOperandTextElement = document.querySelector('[data-prev-operand]')
+    const currentOperandTextElement = document.querySelector('[data-current-operand]')
+    const calculator = new Calculator(prevOperandTextElement, currentOperandTextElement)
 
 
-const calculator = new Calculator(prevOperandTextElement, currentOperandTextElement)
+    numberButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            calculator.appendNumber(button.innerText)
+            calculator.updateDisplay()
+        })
+    })
 
+    operationButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            calculator.chooseOperation(button.innerText)
+            calculator.updateDisplay()
+        })
+    })
 
-numberButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        calculator.appendNumber(button.innerText)
+    equalsButton.addEventListener('click', button => {
+        calculator.compute()
         calculator.updateDisplay()
     })
-})
 
-operationButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        calculator.chooseOperation(button.innerText)
+    deleteButton.addEventListener('click', button => {
+        calculator.delete()
         calculator.updateDisplay()
     })
-})
 
-equalsButton.addEventListener('click', button => {
-    calculator.compute()
-    calculator.updateDisplay()
-})
+    clearButton.addEventListener('click', button => {
+        calculator.clear()
+        calculator.updateDisplay()
+    })
+}
 
-deleteButton.addEventListener('click', button => {
-    calculator.delete()
-    calculator.updateDisplay()
-})
-
-clearButton.addEventListener('click', button => {
-    calculator.clear()
-    calculator.updateDisplay()
-})
-
+events_loop()

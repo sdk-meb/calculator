@@ -7,7 +7,7 @@
 body{
     padding: 0; 
     margin: 0;
-    background: linear-gradient(to right, #00eef3, #00fa);
+    background: linear-gradient(to right, #0000FF, #6600FF);
 }
 
 .calculator {
@@ -48,7 +48,7 @@ body{
 }
 
 .output .previos-aperand {
-    color: wheat;
+    color: white;
     font-size: 2.5rem;
 }
 

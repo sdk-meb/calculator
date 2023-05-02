@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta https-equiv="X-UA-Compatible" content="ie=edge">
     <title> Calculator </title>
+    <link rel="icon" type="image/x-icon" href="./accessories-calculator.png">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
@@ -13,7 +14,8 @@
 <body>
         <div class="calculator">
             <div class="output">
-                <div data-prev-operand class="previous-operand"></div>
+                <div data-prev-operand class="previous-operand"
+                onmousemove="this.style.backgroundColor='red'" onmouseleave="this.style.backgroundColor='black'" ></div>
                 <div data-current-operand class="current-operand"></div>
             </div>
             <button data-clear class="span-two">AC</button>
